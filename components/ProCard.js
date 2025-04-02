@@ -1,5 +1,50 @@
 import { View, Text, StyleSheet, Image, Platform } from 'react-native';
 
+
+const getTypeDetails = (type) => {
+    switch (type.toLowerCase()) {
+      case "caring":
+        return { 
+            borderColor: "#FF69B4", 
+            emoji: "❤️" 
+        };
+        case "friendly":
+        return { 
+            borderColor: "#FFD700", 
+            emoji: "😊" 
+        };
+        case "optimistic":
+        return { 
+            borderColor: "#00FF00", 
+            emoji: "🌈" 
+        };
+        case "passionate":
+        return { 
+            borderColor: "#FF0000", 
+            emoji: "🔥" 
+        };
+        case "generous":
+        return { 
+            borderColor: "#00FFFF", 
+            emoji: "🎁" 
+        };
+        case "kind":
+        return { 
+            borderColor: "#FF4500", 
+            emoji: "🤗" 
+        };
+        case "hopeful":
+        return { 
+            borderColor: "#0000FF", 
+            emoji: "🌟" 
+        };
+        default:
+        return { 
+            borderColor: "#000", 
+            emoji: "❓" 
+        };
+    }
+  };
 export default function ProCard({
     name,
     image,
@@ -8,21 +53,35 @@ export default function ProCard({
     ambition,
     hobbies,
 }) {
+    const { borderColor, emoji } = getTypeDetails(type);
+
     return (
         <View style={styles.card}>
-           <View>
-            <Text>{name}</Text>
-            <Text>{likes}</Text>
+           <View style={styles.nameCard}>
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.likes}>❤️ {likes}</Text>
            </View>
 
-           <Image source={image} accessibilityLabel={`${name} procard`}/>
+           <Image source={image} 
+           accessibilityLabel={`${name} procard`}
+           style={styles.image}
+              resizeMode="cover"
+           />
 
-           <View>
-            <Text>{type}</Text>
-            <Text>{ambition}</Text>
+           <View style={styles.typeContainer}>
+            <View style={[styles.badge, { borderColor }]}>
+            <Text style={styles.typeText}>{type}</Text>
+            <Text style={styles.typeEmoji}>{emoji}</Text>
+            
+            </View>
+            
+           </View>
+           <View style={styles.ambitionCard}>
+            <Text style={styles.ambitionText}>
+                Ambition: {ambition.join(", ")}</Text>
            </View>
               <View>
-                <Text>
+                <Text style={styles.hobbiesText}>
                     Hobbies: {hobbies.join(", ")}
                 </Text>
               </View>
@@ -59,13 +118,14 @@ const styles = StyleSheet.create({
       fontSize: 30,
       fontWeight: "bold",
     },
-    hp: {
+    likes: {
       fontSize: 22,
     },
     image: {
       width: "100%",
-      height: 200,
+      height: 300,
       marginBottom: 16,
+      borderRadius: 15,
     },
     typeContainer: {
       flexDirection: "row",
@@ -89,17 +149,18 @@ const styles = StyleSheet.create({
       fontSize: 22,
       fontWeight: "bold",
     },
-    movesContainer: {
-      marginBottom: 12,
+    ambitionCard: {
+      marginBottom: 8,
+        
     },
-    movesText: {
+    ambitionText: {
       fontSize: 22,
       fontWeight: "bold",
     },
-    weaknessContainer: {
+    hobbiesCard: {
       marginBottom: 8,
     },
-    weaknessText: {
+    hobbiesText: {
       fontSize: 22,
       fontWeight: "bold",
     },
